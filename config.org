@@ -1,3 +1,54 @@
+* Basic Setup
+** Scroll
+#+BEGIN_SRC emacs-lisp
+(setq scroll-conservatively 100)
+#+END_SRC
+** Bell
+#+BEGIN_SRC emacs-lisp
+(setq ring-bell-function 'ignore)
+#+END_SRC
+** Highlight Line
+ #+BEGIN_SRC emacs-lisp
+(when window-system (global-hl-line-mode t))
+ #+END_SRC
+** Prettify Symbols
+#+BEGIN_SRC emacs-lisp
+(when window-system (global-prettify-symbols-mode t))
+#+END_SRC
+** subword
+#+BEGIN_SRC emacs-lisp
+  (global-subword-mode 1)
+#+END_SRC
+** electric
+#+BEGIN_SRC emacs-lisp
+  (setq electric-pair-pairs '(
+			      (?\( . ?\))
+			      (?\[ . ?\])
+			      (?\{ . ?\})
+			      ))
+
+  (electric-pair-mode t)
+#+END_SRC
+* Convenient functions
+** Kill whole word
+#+BEGIN_SRC emacs-lisp
+  (defun kill-whole-word ()
+    (interactive)
+    (backward-ward)
+    (kill-word 1))
+  (global-set-key (kbd "C-c w w") 'kill-whole-word)
+#+END_SRC
+* Toolbar and Menus
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+#+END_SRC
+* Theme
+#+BEGIN_SRC emacs-lisp
+(unless (package-installed-p 'spacemacs-theme)
+  (package-refresh-contents)
+  (package-install 'spacemacs-theme))
+#+END_SRC  
 * Terminal
 ** Set Default Shell
 #+BEGIN_SRC emacs-lisp
@@ -13,10 +64,169 @@
 #+END_SRC
 
 * Org
+** basic config
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-window-setup 'current-window)
+  (add-to-list 'org-structure-template-alist
+	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+#+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :ensure t
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+#+END_SRC
+* Dashboard
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-items '((recents . 10))))
+#+END_SRC
+* Yes or No
+#+BEGIN_SRC emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+* Auto Save and Backup
+#+BEGIN_SRC emacs-lisp
+(setq make-backup-file nil)
+(setq auto-save-default nil)
+#+END_SRC
+* MacOS keyboard issues
+#+BEGIN_SRC emacs-lisp
+(setq default-input-method "MacOSX")
+(setq mac-command-modifier 'meta
+      mac-option-modifier nil
+      mac-allow-anti-aliasing t
+      mac-command-key-is-meta t)
+#+END_SRC
+* Path
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'exec-path "/opt/local/bin")
+#+END_SRC
+* Transparency
+#+BEGIN_SRC emacs-lisp
+  (defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+      (set-frame-parameter
+      nil 'alpha
+      (if (eql (cond ((numberp alpha) alpha)
+		      ((numberp (cdr alpha)) (cdr alpha))
+		      ;; Also handle undocumented (<active> <inactive>) form.
+		      ((numberp (cadr alpha)) (cadr alpha)))
+	      100)
+	  '(85 . 50) '(100 . 100)))))
+  (global-set-key (kbd "C-c t") 'toggle-transparency)
+#+END_SRC
+* Powerline
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
+(require 'powerline)
+#+END_SRC
+* Evil Mode
+  #+BEGIN_SRC emacs-lisp
+    (require 'evil)
+    (evil-mode 1)
+  #+END_SRC
+* Markdown
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.mdown$" . markdown-mode))
+  (add-hook 'markdown-mode-hook
+	    (lambda ()
+	      (visual-line-mode t)
+	      (writegood-mode t)
+	      (flyspell-mode t)))
+  (setq markdown-command "pandoc --smart -f markdown -t html")
+#+END_SRC
+* Which Key
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode))
+#+END_SRC
+* Beacon
+ #+BEGIN_SRC emacs-lisp
+   (use-package beacon
+     :ensure t
+     :init
+     (beacon-mode 1))
+ #+END_SRC
+* Ido
+** Ido Core
+#+BEGIN_SRC emacs-lisp
+  (require 'ido)
+  (setq ido-enable-flex-matching nil)
+  (setq ido-create-new-buffer 'always)
+  (setq ido-everywhere t)
+  (ido-mode t)
+#+END_SRC
+** Ido Vertical
+#+BEGIN_SRC emacs-lisp
+  (use-package ido-vertical-mode
+    :ensure t
+    :init
+    (ido-vertical-mode 1))
+  (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+#+END_SRC
+** smex
+#+BEGIN_SRC emacs-lisp
+  (use-package smex
+    :ensure t
+    :init (smex-initialize)
+    :bind ("M-x" . smex))
+#+END_SRC
+** switch buffer
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+#+END_SRC
+* Buffers
+** Always kill current buffer
+ #+BEGIN_SRC emacs-lisp
+   (defun kill-curr-buffer ()
+     (interactive)
+     (kill-buffer (current-buffer)))
+   (global-set-key (kbd "C-x k") 'kill-curr-buffer)
+ #+END_SRC
+** Enable ibuffer
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x b") 'ibuffer)
+#+END_SRC
+* Evy
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t
+    :bind
+    ("M-s" . avy-goto-char))
+#+END_SRC
+* Config edit and reload
+** Edit
+#+BEGIN_SRC emacs-lisp
+  (defun config-visit ()
+    (interactive)
+    (find-file "~/.emacs.d/config.org"))
+  (global-set-key (kbd "C-c e") 'config-visit)
+#+END_SRC
+** Reload
+#+BEGIN_SRC emacs-lisp
+  (defun config-reload ()
+    (interactive)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+  (global-set-key (kbd "C-c r") 'config-reload)
+#+END_SRC
+* Rainbow
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+    :ensure t
+    :init (rainbow-mode 1))
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :init
+    (rainbow-delimiters-mode 1))
 #+END_SRC
