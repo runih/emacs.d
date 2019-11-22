@@ -1,0 +1,22 @@
+* Terminal
+** Set Default Shell
+#+BEGIN_SRC emacs-lisp
+  (defvar my-term-shell "/opt/local/bin/fish")
+  (defadvice ansi-term (before force-bash)
+    (interactive (list my-term-shell)))
+  (ad-activate 'ansi-term)
+#+END_SRC
+
+** Key binding for terminal
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<M-RET>") 'ansi-term)
+#+END_SRC
+
+* Org
+** Org Bullets
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+#+END_SRC
