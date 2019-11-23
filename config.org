@@ -64,7 +64,7 @@
 
 ** Key binding for terminal
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<M-RET>") 'ansi-term)
+  (global-set-key (kbd "M-t") 'ansi-term)
 #+END_SRC
 
 * Org
@@ -126,13 +126,11 @@
   (global-set-key (kbd "C-c t") 'toggle-transparency)
 #+END_SRC
 * Powerline
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
-(require 'powerline)
-#+END_SRC
 * Evil Mode
   #+BEGIN_SRC emacs-lisp
-    (require 'evil)
+(use-package evil
+:ensure t)
+  (require 'evil)
     (evil-mode 1)
   #+END_SRC
 * Markdown
@@ -234,3 +232,17 @@
     :init
     (rainbow-delimiters-mode 1))
 #+END_SRC
+* Git
+
+** Gited
+ #+BEGIN_SRC emacs-lisp
+   (use-package gited
+     :ensure t)
+   (require 'gited)
+ #+END_SRC
+** Git Gutter
+ #+BEGIN_SRC emacs-lisp
+   (use-package git-gutter+
+     :ensure t)
+   (global-git-gutter+-mode +1)
+ #+END_SRC

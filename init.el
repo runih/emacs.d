@@ -24,10 +24,10 @@
  '(custom-enabled-themes (quote (spacemacs-dark)))
  '(custom-safe-themes
    (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (dashboard rainbow-delimiters avy smex ido-vertical-mode beacon auto-complete auto-compile copy-as-format spacemacs-theme use-package which-key org-bullets markdown-mode helm evil ##)))
+    (gited git-gutter+ git-gutter git smart-mode-line-powerline-theme dashboard rainbow-delimiters avy smex ido-vertical-mode beacon auto-complete auto-compile copy-as-format spacemacs-theme use-package which-key org-bullets markdown-mode helm evil ##)))
  '(which-key-mode t))
 
 
