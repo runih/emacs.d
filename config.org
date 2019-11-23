@@ -126,6 +126,12 @@
   (global-set-key (kbd "C-c t") 'toggle-transparency)
 #+END_SRC
 * Powerline
+#+BEGIN_SRC emacs-lisp
+    (use-package powerline
+      :ensure t)
+    (require 'powerline)
+    (powerline-default-theme)
+#+END_SRC
 * Evil Mode
   #+BEGIN_SRC emacs-lisp
 (use-package evil
@@ -233,7 +239,6 @@
     (rainbow-delimiters-mode 1))
 #+END_SRC
 * Git
-
 ** Gited
  #+BEGIN_SRC emacs-lisp
    (use-package gited

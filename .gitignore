@@ -1,0 +1,4 @@
+config.el
+elpa/*
+recentf
+smex-items
