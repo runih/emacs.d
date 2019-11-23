@@ -1,4 +1,8 @@
 * Basic Setup
+** Relative Numbers
+#+BEGIN_SRC emacs-lisp
+  (setq-default display-line-numbers 'relative)
+#+END_SRC
 ** Scroll
 #+BEGIN_SRC emacs-lisp
 (setq scroll-conservatively 100)
