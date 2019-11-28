@@ -26,12 +26,16 @@
 ** electric
 #+BEGIN_SRC emacs-lisp
   (setq electric-pair-pairs '(
-			      (?\( . ?\))
-			      (?\[ . ?\])
-			      (?\{ . ?\})
-			      ))
+                              (?\( . ?\))
+                              (?\[ . ?\])
+                              (?\{ . ?\})
+                              ))
 
   (electric-pair-mode t)
+#+END_SRC
+** whitespaces
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd"C-c w") 'whitespace-mode)
 #+END_SRC
 * Convenient functions
 ** Kill whole word
@@ -52,7 +56,7 @@
 (unless (package-installed-p 'spacemacs-theme)
   (package-refresh-contents)
   (package-install 'spacemacs-theme))
-#+END_SRC  
+#+END_SRC
 * Terminal
 ** Set Default Shell
 #+BEGIN_SRC emacs-lisp
@@ -72,7 +76,9 @@
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
   (add-to-list 'org-structure-template-alist
-	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+               '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+  (add-to-list 'org-structure-template-alist
+               '("sql" "#+BEGIN_SRC sql :tangle yes\n?\n#+END_SRC"))
 #+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
@@ -118,11 +124,11 @@
       (set-frame-parameter
       nil 'alpha
       (if (eql (cond ((numberp alpha) alpha)
-		      ((numberp (cdr alpha)) (cdr alpha))
-		      ;; Also handle undocumented (<active> <inactive>) form.
-		      ((numberp (cadr alpha)) (cadr alpha)))
-	      100)
-	  '(85 . 50) '(100 . 100)))))
+                      ((numberp (cdr alpha)) (cdr alpha))
+                      ;; Also handle undocumented (<active> <inactive>) form.
+                      ((numberp (cadr alpha)) (cadr alpha)))
+              100)
+          '(85 . 50) '(100 . 100)))))
   (global-set-key (kbd "C-c t") 'toggle-transparency)
 #+END_SRC
 * Powerline
@@ -144,10 +150,10 @@
   (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
   (add-to-list 'auto-mode-alist '("\\.mdown$" . markdown-mode))
   (add-hook 'markdown-mode-hook
-	    (lambda ()
-	      (visual-line-mode t)
-	      (writegood-mode t)
-	      (flyspell-mode t)))
+            (lambda ()
+              (visual-line-mode t)
+              (writegood-mode t)
+              (flyspell-mode t)))
   (setq markdown-command "pandoc --smart -f markdown -t html")
 #+END_SRC
 * Which Key
@@ -245,6 +251,7 @@
     :ensure t
     )
   (setq magit-ediff-dwim-show-on-hunks t)
+  (require 'evil-magit)
 #+END_SRC
 ** Git Gutter
  #+BEGIN_SRC emacs-lisp
@@ -252,3 +259,4 @@
      :ensure t)
    (global-git-gutter+-mode +1)
  #+END_SRC
+* PostgreSQL
